@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from '@/components/layout/Navbar';
 import ChatbotWidget from '@/components/features/ChatbotWidget';
 import CaptchaProvider from '@/components/providers/CaptchaProvider';
@@ -20,15 +21,17 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className={`${inter.className} bg-slate-50 text-slate-900 min-h-screen flex flex-col`}>
-        <CaptchaProvider>
-          <Navbar />
-          
-          <main className="flex-grow">
-            {children}
-          </main>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+          <CaptchaProvider>
+            <Navbar />
+            
+            <main className="flex-grow">
+              {children}
+            </main>
 
-          <ChatbotWidget />
-        </CaptchaProvider>
+            <ChatbotWidget />
+          </CaptchaProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

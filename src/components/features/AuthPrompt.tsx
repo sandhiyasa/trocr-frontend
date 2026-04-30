@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { ShieldCheck, UserCircle2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleLogin } from '@react-oauth/google';
+import Swal from 'sweetalert2';
 
 interface AuthPromptProps {
   title: string;
@@ -11,36 +13,81 @@ interface AuthPromptProps {
 }
 
 export default function AuthPrompt({ title, description }: AuthPromptProps) {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const handleGoogleSuccess = async (tokenResponse: any) => {
+    setIsProcessing(true);
+    try {
+      if (executeRecaptcha) {
+        const recaptchaToken = await executeRecaptcha('login_google');
+        if (!recaptchaToken) throw new Error("Gagal verifikasi reCAPTCHA");
+      }
+      await loginWithGoogle(tokenResponse.access_token);
+    } catch (e: any) {
+      console.error(e);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: e.message || "Gagal login dengan Google",
+        confirmButtonColor: '#059669'
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const loginWithGoogleFlow = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: (error) => {
+      console.error('Google Login Failed:', error);
+      setIsProcessing(false);
+    }
+  });
+
   const handleLogin = async (isAnonim: boolean) => {
+    if (!isAnonim) {
+      setIsProcessing(true);
+      loginWithGoogleFlow();
+      return;
+    }
+
     setIsProcessing(true);
     try {
       if (!executeRecaptcha) {
-        alert("Sistem Keamanan sedang dimuat, mohon tunggu sebentar.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Harap Tunggu',
+          text: 'Sistem Keamanan sedang dimuat.',
+          confirmButtonColor: '#f59e0b'
+        });
         return;
       }
 
       // Verifikasi reCAPTCHA v3 (Tak kasat mata)
-      const token = await executeRecaptcha('login');
+      const token = await executeRecaptcha('login_anonim');
       
       if (!token) {
-        alert("Verifikasi otomatis gagal. Apakah Anda robot?");
+        Swal.fire({
+          icon: 'error',
+          title: 'Verifikasi Gagal',
+          text: 'Gagal memverifikasi keamanan otomatis. Apakah Anda robot?',
+          confirmButtonColor: '#ef4444'
+        });
         return;
       }
 
-      // Lanjut proses login
-      if (isAnonim) {
-        await login("anonim_token", true);
-      } else {
-        const mockGoogleToken = "dummy_google_token_" + Date.now();
-        await login(mockGoogleToken, false);
-      }
-    } catch (e) {
+      // Lanjut proses login anonim
+      await login("anonim_token", true);
+    } catch (e: any) {
       console.error(e);
-      alert("Gagal login: " + String(e));
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: e.message || "Terjadi kesalahan sistem",
+        confirmButtonColor: '#ef4444'
+      });
     } finally {
       setIsProcessing(false);
     }

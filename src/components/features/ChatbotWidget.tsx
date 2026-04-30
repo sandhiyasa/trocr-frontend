@@ -4,39 +4,86 @@ import { useState } from 'react';
 import { MessageSquare, X, Send, Bot, UserCircle, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleLogin } from '@react-oauth/google';
+import Swal from 'sweetalert2';
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, login, loginWithGoogle, user } = useAuth();
   
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const handleGoogleSuccess = async (tokenResponse: any) => {
+    setIsProcessing(true);
+    try {
+      if (executeRecaptcha) {
+        const recaptchaToken = await executeRecaptcha('login_google_chat');
+        if (!recaptchaToken) throw new Error("Gagal verifikasi reCAPTCHA");
+      }
+      await loginWithGoogle(tokenResponse.access_token);
+    } catch (e: any) {
+      console.error(e);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: e.message || "Gagal login dengan Google",
+        confirmButtonColor: '#059669'
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const loginWithGoogleFlow = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: (error) => {
+      console.error('Google Login Failed:', error);
+      setIsProcessing(false);
+    }
+  });
+
   const handleLogin = async (isAnonim: boolean) => {
+    if (!isAnonim) {
+      setIsProcessing(true);
+      loginWithGoogleFlow();
+      return;
+    }
+
     setIsProcessing(true);
     try {
       if (!executeRecaptcha) {
-        alert("Sistem Keamanan sedang dimuat, mohon tunggu sebentar.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Harap Tunggu',
+          text: 'Sistem Keamanan sedang dimuat.',
+          confirmButtonColor: '#f59e0b'
+        });
         return;
       }
 
       // Verifikasi otomatis reCAPTCHA v3
-      const token = await executeRecaptcha('login');
+      const token = await executeRecaptcha('login_anonim_chat');
       
       if (!token) {
-        alert("Gagal memverifikasi keamanan otomatis. Silakan coba lagi.");
+        Swal.fire({
+          icon: 'error',
+          title: 'Verifikasi Gagal',
+          text: 'Gagal memverifikasi keamanan otomatis. Silakan coba lagi.',
+          confirmButtonColor: '#ef4444'
+        });
         return;
       }
 
-      if (isAnonim) {
-        await login("anonim_token", true);
-      } else {
-        const mockGoogleToken = "dummy_google_token_" + Date.now();
-        await login(mockGoogleToken, false);
-      }
-    } catch (e) {
+      await login("anonim_token", true);
+    } catch (e: any) {
       console.error(e);
-      alert("Gagal login: " + String(e));
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: e.message || "Terjadi kesalahan sistem",
+        confirmButtonColor: '#ef4444'
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -49,14 +96,14 @@ export default function ChatbotWidget() {
         <div className="bg-white w-80 sm:w-96 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
           
           {/* Header Bli Bot */}
-          <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-4 flex justify-between items-center text-white">
+          <div className="bg-gradient-to-r from-amber-600 to-amber-700 p-4 flex justify-between items-center text-white">
             <div className="flex items-center gap-3">
-              <div className="bg-white/20 p-2 rounded-full">
-                <Bot className="w-5 h-5" />
+              <div className="bg-white/20 p-1.5 rounded-full">
+                <img src="/img/chatbot.png" alt="Bli Bot" className="w-6 h-6 object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-sm">Bli Bot</h3>
-                <p className="text-xs text-emerald-100 opacity-90">Asisten Aksara Bali AI</p>
+                <p className="text-xs text-amber-100 opacity-90">Asisten Aksara Bali AI</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1.5 rounded-full transition-colors">
@@ -70,7 +117,7 @@ export default function ChatbotWidget() {
             {!isAuthenticated ? (
               // --- TAMPILAN JIKA BELUM LOGIN ---
               <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2.5">
-                <div className="bg-emerald-100 p-3 rounded-full mb-1 text-emerald-600">
+                <div className="bg-amber-100 p-3 rounded-full mb-1 text-amber-600">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h4 className="font-bold text-slate-800 text-sm">Autentikasi Diperlukan</h4>
@@ -114,8 +161,8 @@ export default function ChatbotWidget() {
                   
                   {/* Bubble Chat AI */}
                   <div className="flex items-start gap-2">
-                    <div className="bg-emerald-100 p-2 rounded-full flex-shrink-0 mt-1">
-                      <Bot className="w-4 h-4 text-emerald-600" />
+                    <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
+                      <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
                     </div>
                     <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-700 shadow-sm leading-relaxed">
                       Rahajeng! Ada yang bisa Bli bantu tentang bahasa atau budaya Bali hari ini?
@@ -124,10 +171,14 @@ export default function ChatbotWidget() {
 
                   {/* Bubble Chat User Dummy */}
                   <div className="flex items-start gap-2 flex-row-reverse">
-                    <div className="bg-slate-200 p-2 rounded-full flex-shrink-0 mt-1">
-                      <UserCircle className="w-4 h-4 text-slate-600" />
+                    <div className="bg-slate-200 p-0.5 rounded-full flex-shrink-0 mt-1 w-8 h-8 flex justify-center items-center overflow-hidden">
+                      {user?.picture ? (
+                        <img src={user.picture} alt={user?.name || "User"} className="w-full h-full object-cover" />
+                      ) : (
+                        <UserCircle className="w-5 h-5 text-slate-600" />
+                      )}
                     </div>
-                    <div className="bg-emerald-600 text-white rounded-2xl rounded-tr-none px-4 py-3 text-sm shadow-sm leading-relaxed">
+                    <div className="bg-amber-600 text-white rounded-2xl rounded-tr-none px-4 py-3 text-sm shadow-sm leading-relaxed">
                       Apa itu lontar?
                     </div>
                   </div>
@@ -139,9 +190,9 @@ export default function ChatbotWidget() {
                   <input
                     type="text"
                     placeholder="Tanya Bli Bot..."
-                    className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-sm"
+                    className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-sm"
                   />
-                  <button className="absolute right-2 top-[calc(50%+4px)] -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full transition-colors active:scale-95">
+                  <button className="absolute right-2 top-[calc(50%+4px)] -translate-y-1/2 bg-amber-600 hover:bg-amber-700 text-white p-2 rounded-full transition-colors active:scale-95">
                     <Send className="w-4 h-4 ml-0.5" />
                   </button>
                 </div>
@@ -155,7 +206,7 @@ export default function ChatbotWidget() {
       {/* Tombol Mengambang (Floating Action Button) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`${isOpen ? 'bg-slate-800 rotate-90' : 'bg-emerald-600 hover:bg-emerald-700 hover:-translate-y-1'} text-white p-4 rounded-full shadow-[0_10px_25px_rgba(5,150,105,0.4)] transition-all duration-300`}
+        className={`${isOpen ? 'bg-slate-800 rotate-90' : 'bg-amber-600 hover:bg-amber-700 hover:-translate-y-1'} text-white p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,6,0.4)] transition-all duration-300`}
       >
         {isOpen ? <X className="w-6 h-6 -rotate-90 transition-transform" /> : <MessageSquare className="w-7 h-7" />}
       </button>
