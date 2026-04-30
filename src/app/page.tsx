@@ -35,8 +35,8 @@ export default function Home() {
         {!isAuthenticated ? (
           <div className="pt-4">
             <AuthPrompt 
-              title="Akses Kamus" 
-              description="Silakan login dan selesaikan CAPTCHA untuk menggunakan fitur pencarian Kamus." 
+              title="Autentikasi Diperlukan" 
+              description="Silakan login terlebih dahulu" 
             />
           </div>
         ) : (

@@ -125,7 +125,7 @@ export default function OcrPage() {
         <div className="pt-4">
           <AuthPrompt 
             title="Akses Fitur Baca Aksara" 
-            description="Silakan login dan selesaikan CAPTCHA terlebih dahulu untuk mulai menggunakan AI TrOCR kami." 
+            description="Silakan login terlebih dahulu." 
           />
         </div>
       ) : (

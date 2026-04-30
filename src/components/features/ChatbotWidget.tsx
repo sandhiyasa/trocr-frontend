@@ -74,9 +74,7 @@ export default function ChatbotWidget() {
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h4 className="font-bold text-slate-800 text-sm">Autentikasi Diperlukan</h4>
-                <p className="text-xs text-slate-500 mb-2 px-1">
-                  Pilih cara masuk yang Anda inginkan (Dilindungi oleh Google reCAPTCHA v3).
-                </p>
+               
 
                 {/* Tombol Login SSO Google */}
                 <button 
