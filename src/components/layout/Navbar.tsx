@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { BookOpen, Menu, X, UserCircle2, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -11,6 +11,24 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Tutup menu jika pengguna klik di luar area profil
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsProfileDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Tutup dropdown dan menu mobile saat rute berganti
+  useEffect(() => {
+    setIsProfileDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-slate-50/80 border-b border-slate-200">
@@ -48,7 +66,7 @@ export default function Navbar() {
           {/* User Desktop / Mobile Toggle */}
           <div className="flex items-center gap-4">
             {isAuthenticated && user && (
-              <div className="hidden md:flex items-center relative">
+              <div className="hidden md:flex items-center relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                   className="flex items-center gap-2.5 hover:bg-slate-100 py-1.5 px-3 rounded-full transition-colors"

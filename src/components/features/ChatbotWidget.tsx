@@ -1,11 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { MessageSquare, X, Send, Bot, UserCircle, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useGoogleLogin } from '@react-oauth/google';
 import Swal from 'sweetalert2';
+
+interface ChatMessage {
+  id: string | number;
+  sender: 'user' | 'bot';
+  text: string;
+  time?: string;
+}
+
+const formatTime = (timeString?: string) => {
+  if (!timeString) return '';
+  // Handle format ISO 8601 maupun Y-m-d H:i:s
+  const date = new Date(timeString.replace(' ', 'T'));
+  if (isNaN(date.getTime())) return '';
+  return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+};
+
+const renderChatText = (text: string) => {
+  const formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold markdown
+    .replace(/\n/g, '<br/>'); // Baris baru
+  return <div dangerouslySetInnerHTML={{ __html: formatted }} />;
+};
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +36,98 @@ export default function ChatbotWidget() {
   
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [inputText, setInputText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
+
+  useEffect(() => {
+    if (isOpen && isAuthenticated && user?.id) {
+      fetchHistory();
+    }
+  }, [isOpen, isAuthenticated, user]);
+
+  const fetchHistory = async () => {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_SERVICE_API_URL || 'http://localhost:8000/api';
+      const res = await axios.get(`${apiUrl}/chat/history/${user?.id || 124}`);
+      if (res.data.status === 'success') {
+        const historyData = res.data.data;
+        const reversed = [...historyData].reverse();
+        
+        const loadedMessages: ChatMessage[] = [];
+        reversed.forEach((chat: any) => {
+           loadedMessages.push({ id: `user_${chat.id}`, sender: 'user', text: chat.user_message, time: chat.time });
+           if (chat.bot_reply) {
+             loadedMessages.push({ id: `bot_${chat.id}`, sender: 'bot', text: chat.bot_reply, time: chat.time });
+           }
+        });
+        
+        if (loadedMessages.length === 0) {
+          loadedMessages.push({
+            id: 'welcome',
+            sender: 'bot',
+            text: 'Rahajeng! Ada yang bisa Bli bantu tentang bahasa atau budaya Bali hari ini?',
+            time: new Date().toISOString()
+          });
+        }
+        
+        setMessages(loadedMessages);
+      }
+    } catch (e) {
+      console.error("Gagal memuat history", e);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!inputText.trim() || isTyping) return;
+    
+    const userMsg = inputText.trim();
+    setInputText('');
+    
+    const currentTime = new Date().toISOString();
+    const tempUserId = `temp_${Date.now()}`;
+    setMessages(prev => [...prev, { id: tempUserId, sender: 'user', text: userMsg, time: currentTime }]);
+    setIsTyping(true);
+    
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_SERVICE_API_URL || 'http://localhost:8000/api';
+      const res = await axios.post(`${apiUrl}/chat/ask`, {
+        message: userMsg,
+        user_id: user?.id || 124
+      });
+      
+      if (res.data.status === 'success') {
+         setMessages(prev => [...prev, {
+            id: `bot_${Date.now()}`,
+            sender: 'bot',
+            text: res.data.reply,
+            time: res.data.time || new Date().toISOString()
+         }]);
+      }
+    } catch (e: any) {
+      console.error("Gagal mengirim pesan", e);
+      setMessages(prev => [...prev, {
+         id: `error_${Date.now()}`,
+         sender: 'bot',
+         text: 'Maaf, Bli sedang mengalami gangguan koneksi. Coba lagi nanti ya!',
+         time: new Date().toISOString()
+      }]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
 
   const handleGoogleSuccess = async (tokenResponse: any) => {
     setIsProcessing(true);
@@ -93,7 +208,7 @@ export default function ChatbotWidget() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       {/* Jendela Obrolan (Tampil jika isOpen = true) */}
       {isOpen && (
-        <div className="bg-white w-80 sm:w-96 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
+        <div className="bg-white w-[90vw] sm:w-[440px] rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
           
           {/* Header Bli Bot */}
           <div className="bg-gradient-to-r from-amber-600 to-amber-700 p-4 flex justify-between items-center text-white">
@@ -103,7 +218,7 @@ export default function ChatbotWidget() {
               </div>
               <div>
                 <h3 className="font-bold text-sm">Bli Bot</h3>
-                <p className="text-xs text-amber-100 opacity-90">Asisten Aksara Bali AI</p>
+                <p className="text-xs text-amber-100 opacity-90">Asisten AI Readbali</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1.5 rounded-full transition-colors">
@@ -112,7 +227,7 @@ export default function ChatbotWidget() {
           </div>
 
           {/* Area Konten */}
-          <div className="h-[24rem] bg-slate-50 flex flex-col p-4 relative">
+          <div className="h-[32rem] bg-slate-50 flex flex-col p-4 relative">
             
             {!isAuthenticated ? (
               // --- TAMPILAN JIKA BELUM LOGIN ---
@@ -158,43 +273,73 @@ export default function ChatbotWidget() {
               // --- TAMPILAN CHAT JIKA SUDAH LOGIN ---
               <>
                 <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-1">
-                  
-                  {/* Bubble Chat AI */}
-                  <div className="flex items-start gap-2">
-                    <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
-                      <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
-                    </div>
-                    <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-700 shadow-sm leading-relaxed">
-                      Rahajeng! Ada yang bisa Bli bantu tentang bahasa atau budaya Bali hari ini?
-                    </div>
-                  </div>
+                  {messages.map((msg) => (
+                    msg.sender === 'bot' ? (
+                      <div key={msg.id} className="flex items-start gap-2">
+                        <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
+                          <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-slate-700 shadow-sm leading-relaxed flex flex-col min-w-[60px]">
+                          {renderChatText(msg.text)}
+                          <span className="text-[10px] text-slate-400 self-start mt-1 leading-none">{formatTime(msg.time)}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div key={msg.id} className="flex items-start gap-2 flex-row-reverse">
+                        <div className="bg-slate-200 p-0.5 rounded-full flex-shrink-0 mt-1 w-8 h-8 flex justify-center items-center overflow-hidden">
+                          {user?.picture ? (
+                            <img src={user.picture} alt={user?.name || "User"} className="w-full h-full object-cover" />
+                          ) : (
+                            <UserCircle className="w-5 h-5 text-slate-600" />
+                          )}
+                        </div>
+                        <div className="bg-amber-600 text-white rounded-2xl rounded-tr-none px-4 py-2 text-sm shadow-sm leading-relaxed flex flex-col min-w-[60px]">
+                          {renderChatText(msg.text)}
+                          <span className="text-[10px] text-amber-200 self-end mt-1 leading-none">{formatTime(msg.time)}</span>
+                        </div>
+                      </div>
+                    )
+                  ))}
 
-                  {/* Bubble Chat User Dummy */}
-                  <div className="flex items-start gap-2 flex-row-reverse">
-                    <div className="bg-slate-200 p-0.5 rounded-full flex-shrink-0 mt-1 w-8 h-8 flex justify-center items-center overflow-hidden">
-                      {user?.picture ? (
-                        <img src={user.picture} alt={user?.name || "User"} className="w-full h-full object-cover" />
-                      ) : (
-                        <UserCircle className="w-5 h-5 text-slate-600" />
-                      )}
+                  {isTyping && (
+                    <div className="flex items-start gap-2">
+                      <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
+                        <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
+                      </div>
+                      <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-700 shadow-sm flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+                      </div>
                     </div>
-                    <div className="bg-amber-600 text-white rounded-2xl rounded-tr-none px-4 py-3 text-sm shadow-sm leading-relaxed">
-                      Apa itu lontar?
-                    </div>
-                  </div>
-                  
+                  )}
+
+                  <div ref={messagesEndRef} />
                 </div>
 
                 {/* Input Teks */}
-                <div className="relative pt-2 border-t border-slate-200">
-                  <input
-                    type="text"
-                    placeholder="Tanya Bli Bot..."
-                    className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-sm"
-                  />
-                  <button className="absolute right-2 top-[calc(50%+4px)] -translate-y-1/2 bg-amber-600 hover:bg-amber-700 text-white p-2 rounded-full transition-colors active:scale-95">
-                    <Send className="w-4 h-4 ml-0.5" />
-                  </button>
+                <div className="pt-2 mt-1 border-t border-slate-200">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={inputText}
+                      onChange={(e) => setInputText(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      disabled={isTyping}
+                      placeholder="Tanya Bli Bot..."
+                      className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-sm disabled:opacity-50 disabled:bg-slate-50"
+                    />
+                    <button 
+                      onClick={handleSendMessage}
+                      disabled={isTyping || !inputText.trim()}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-amber-600 hover:bg-amber-700 text-white p-2 rounded-full transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Send className="w-4 h-4 ml-0.5" />
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-center text-slate-400 mt-2 px-2 leading-tight">
+                    Bli Bot adalah AI dalam tahap penelitian, Jawaban mungkin dapat keliru. Ampura jika ada ketidaktepatan dalam hasil atau tutur bahasa
+                  </p>
                 </div>
               </>
             )}
