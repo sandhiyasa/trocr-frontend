@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { BookOpen, Menu, X, UserCircle2, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -29,16 +31,16 @@ export default function Navbar() {
 
           {/* Navigasi Desktop */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/home" className="text-slate-600 hover:text-amber-600 font-medium transition-colors">
+            <Link href="/home" className={`font-medium transition-colors ${pathname === '/home' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
               Beranda
             </Link>
-            <Link href="/" className="text-slate-600 hover:text-amber-600 font-medium transition-colors">
+            <Link href="/" className={`font-medium transition-colors ${pathname === '/' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
               Kamus
             </Link>
-            <Link href="/ocr" className="text-slate-600 hover:text-amber-600 font-medium transition-colors">
+            <Link href="/ocr" className={`font-medium transition-colors ${pathname === '/ocr' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
               Baca Aksara
             </Link>
-            <Link href="/kuis" className="text-slate-600 hover:text-amber-600 font-medium transition-colors">
+            <Link href="/kuis" className={`font-medium transition-colors ${pathname === '/kuis' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
               Kuis Aksara
             </Link>
           </div>
@@ -93,16 +95,16 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 absolute w-full shadow-lg">
           <div className="px-4 pt-2 pb-6 space-y-1">
-            <Link href="/home" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-3 text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-md font-medium">
+            <Link href="/home" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/home' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
               Beranda
             </Link>
-            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-3 text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-md font-medium">
+            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
               Kamus
             </Link>
-            <Link href="/ocr" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-3 text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-md font-medium">
+            <Link href="/ocr" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/ocr' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
               Baca Aksara
             </Link>
-            <Link href="/kuis" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-3 text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-md font-medium">
+            <Link href="/kuis" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/kuis' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
               Kuis Aksara
             </Link>
 
