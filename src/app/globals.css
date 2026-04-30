@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Balinese&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Inter", var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-bali: "Noto Sans Balinese", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --color-brand-gold: #C89B3C;
+  --color-brand-dark: #1A1814;
+  --color-brand-stone: #2A2621;
+  --color-brand-lontar: #F9F6F0;
+  --color-brand-accent: #8B261A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
