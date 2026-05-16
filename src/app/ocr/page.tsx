@@ -15,51 +15,51 @@ export default function OcrPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const translateBalineseToLatin = (unicodeStr: string) => {
-      let text = unicodeStr;
-      const modifiers: Record<string, string> = {
-          'ᬂ': 'ng', 'ᬃ': 'r', 'ᬄ': 'h', '᭄': '',
-          'ᬵ': 'a', 'ᬶ': 'i', 'ᬷ': 'i', 'ᬸ': 'u', 'ᬹ': 'u',
-          'ᬺ': 're', 'ᬻ': 're', 'ᬼ': 'le', 'ᬽ': 'le',
-          'ᬾ': 'e', 'ᬿ': 'ai', 'ᭀ': 'o', 'ᭁ': 'au'
-      };
-      const consonants: Record<string, string> = {
-          'ᬳ': 'ha', 'ᬦ': 'na', 'ᬘ': 'ca', 'ᬭ': 'ra', 'ᬓ': 'ka',
-          'ᬤ': 'da', 'ᬢ': 'ta', 'ᬲ': 'sa', 'ᬯ': 'wa', 'ᬮ': 'la',
-          'ᬫ': 'ma', 'ᬕ': 'ga', 'ᬩ': 'ba', 'ᬗ': 'nga', 'ᬧ': 'pa',
-          'ᬚ': 'ja', 'ᬬ': 'ya', 'ᬜ': 'nya', 'ᬝ': 'ta', 'ᬟ': 'da',
-          'ᬡ': 'na', 'ᬠ': 'bha', 'ᬋ': 'ra', 'ᬌ': 'la'
-      };
-      const vowels: Record<string, string> = {
-          'ᬅ': 'a', 'ᬆ': 'aa', 'ᬇ': 'i', 'ᬈ': 'ii', 'ᬉ': 'u',
-          'ᬊ': 'uu', 'ᬏ': 'e', 'ᬐ': 'ai', 'ᬑ': 'o', 'ᬒ': 'au'
-      };
+    let text = unicodeStr;
+    const modifiers: Record<string, string> = {
+      'ᬂ': 'ng', 'ᬃ': 'r', 'ᬄ': 'h', '᭄': '',
+      'ᬵ': 'a', 'ᬶ': 'i', 'ᬷ': 'i', 'ᬸ': 'u', 'ᬹ': 'u',
+      'ᬺ': 're', 'ᬻ': 're', 'ᬼ': 'le', 'ᬽ': 'le',
+      'ᬾ': 'e', 'ᬿ': 'ai', 'ᭀ': 'o', 'ᭁ': 'au'
+    };
+    const consonants: Record<string, string> = {
+      'ᬳ': 'ha', 'ᬦ': 'na', 'ᬘ': 'ca', 'ᬭ': 'ra', 'ᬓ': 'ka',
+      'ᬤ': 'da', 'ᬢ': 'ta', 'ᬲ': 'sa', 'ᬯ': 'wa', 'ᬮ': 'la',
+      'ᬫ': 'ma', 'ᬕ': 'ga', 'ᬩ': 'ba', 'ᬗ': 'nga', 'ᬧ': 'pa',
+      'ᬚ': 'ja', 'ᬬ': 'ya', 'ᬜ': 'nya', 'ᬝ': 'ta', 'ᬟ': 'da',
+      'ᬡ': 'na', 'ᬠ': 'bha', 'ᬋ': 'ra', 'ᬌ': 'la'
+    };
+    const vowels: Record<string, string> = {
+      'ᬅ': 'a', 'ᬆ': 'aa', 'ᬇ': 'i', 'ᬈ': 'ii', 'ᬉ': 'u',
+      'ᬊ': 'uu', 'ᬏ': 'e', 'ᬐ': 'ai', 'ᬑ': 'o', 'ᬒ': 'au'
+    };
 
-      let result = '';
-      for (let i = 0; i < text.length; i++) {
-          let char = text[i];
-          let nextChar = text[i + 1];
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      let char = text[i];
+      let nextChar = text[i + 1];
 
-          if (consonants[char]) {
-              let baseSyllable = consonants[char];
-              if (nextChar && modifiers[nextChar] !== undefined) {
-                  let baseConsonant = baseSyllable.slice(0, -1);
-                  result += baseConsonant + modifiers[nextChar];
-                  i++;
-              } else {
-                  result += baseSyllable;
-              }
-          }
-          else if (vowels[char]) {
-              result += vowels[char];
-          }
-          else if (modifiers[char] !== undefined) {
-              result += modifiers[char];
-          }
-          else {
-              result += char;
-          }
+      if (consonants[char]) {
+        let baseSyllable = consonants[char];
+        if (nextChar && modifiers[nextChar] !== undefined) {
+          let baseConsonant = baseSyllable.slice(0, -1);
+          result += baseConsonant + modifiers[nextChar];
+          i++;
+        } else {
+          result += baseSyllable;
+        }
       }
-      return result;
+      else if (vowels[char]) {
+        result += vowels[char];
+      }
+      else if (modifiers[char] !== undefined) {
+        result += modifiers[char];
+      }
+      else {
+        result += char;
+      }
+    }
+    return result;
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,8 +77,8 @@ export default function OcrPage() {
 
     try {
       const response = await fetch("https://api-ocr.readbali.com/predict", {
-          method: 'POST',
-          body: formData
+        method: 'POST',
+        body: formData
       });
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -86,10 +86,10 @@ export default function OcrPage() {
       const data = await response.json();
 
       if (data.status === "sukses") {
-          setBaliText(data.hasil_ocr);
-          setLatinText(translateBalineseToLatin(data.hasil_ocr) || "Terjemahan tidak tersedia");
+        setBaliText(data.hasil_ocr);
+        setLatinText(data.hasil_latin || "Terjemahan tidak tersedia");
       } else {
-          throw new Error("Gagal memproses gambar.");
+        throw new Error("Gagal memproses gambar.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -117,20 +117,20 @@ export default function OcrPage() {
           dalam <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700">Satu Ketukan</span>
         </h2>
         <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto">
-          Unggah foto aksara Bali, biarkan Kecerdasan Buatan kami membacanya dan menerjemahkannya ke huruf Latin seketika.
+          Unggah foto aksara Bali.
         </p>
       </div>
 
       {!isAuthenticated ? (
         <div className="pt-4">
-          <AuthPrompt 
-            title="Akses Fitur Baca Aksara" 
-            description="Silakan login terlebih dahulu." 
+          <AuthPrompt
+            title="Akses Fitur Baca Aksara"
+            description="Silakan login terlebih dahulu."
           />
         </div>
       ) : (
         <div className="bg-white rounded-2xl md:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden p-4 md:p-8">
-          
+
           {/* Dropzone / Upload Area */}
           {!file && !isLoading && (
             <div
@@ -164,7 +164,7 @@ export default function OcrPage() {
           {file && !isLoading && baliText && (
             <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-slate-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
+
                 {/* Kolom Gambar Pratinjau */}
                 <div className="lg:col-span-1">
                   <div className="flex items-center gap-2 mb-3">
