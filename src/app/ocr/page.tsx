@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { UploadCloud, Loader2, RefreshCw } from 'lucide-react';
+import { UploadCloud, Loader2, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import AuthPrompt from '@/components/features/AuthPrompt';
 
@@ -10,6 +10,8 @@ export default function OcrPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [ocrStatus, setOcrStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [baliText, setBaliText] = useState('');
   const [latinText, setLatinText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,6 +71,8 @@ export default function OcrPage() {
     setFile(selectedFile);
     setPreview(URL.createObjectURL(selectedFile));
     setIsLoading(true);
+    setUploadStatus('loading');
+    setOcrStatus('idle');
     setBaliText('');
     setLatinText('');
 
@@ -76,14 +80,32 @@ export default function OcrPage() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch("https://api-ocr.readbali.com/predict", {
-        method: 'POST',
-        body: formData
+      const data: any = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', (event) => {
+          if (event.loaded === event.total) {
+            setUploadStatus('success');
+            setOcrStatus('loading');
+          }
+        });
+
+        xhr.addEventListener('load', () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            setOcrStatus('success');
+            resolve(JSON.parse(xhr.responseText));
+          } else {
+            reject(new Error(`HTTP error! status: ${xhr.status}`));
+          }
+        });
+
+        xhr.addEventListener('error', () => {
+          reject(new Error("Network error"));
+        });
+
+        xhr.open("POST", "https://api-ocr.readbali.com/predict");
+        xhr.send(formData);
       });
-
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const data = await response.json();
 
       if (data.status === "sukses") {
         setBaliText(data.hasil_ocr);
@@ -93,6 +115,8 @@ export default function OcrPage() {
       }
     } catch (error) {
       console.error("Error:", error);
+      setUploadStatus('error');
+      setOcrStatus('error');
       alert("Terjadi kesalahan saat menghubungi AI OCR. Silakan coba lagi.");
       resetUI();
     } finally {
@@ -105,6 +129,8 @@ export default function OcrPage() {
     setPreview('');
     setBaliText('');
     setLatinText('');
+    setUploadStatus('idle');
+    setOcrStatus('idle');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -154,9 +180,48 @@ export default function OcrPage() {
 
           {/* Loading State */}
           {isLoading && (
-            <div className="flex flex-col items-center justify-center py-12">
-              <Loader2 className="w-12 h-12 text-amber-500 animate-spin mb-4" />
-              <p className="text-slate-600 font-medium animate-pulse text-center">AI sedang menganalisis guratan aksara...</p>
+            <div className="flex flex-col items-center justify-center py-12 max-w-sm mx-auto">
+              <div className="w-full space-y-2">
+                {/* Upload Status */}
+                <div className="flex items-center gap-4 py-3 transition-all">
+                  <div className="flex-shrink-0">
+                    {uploadStatus === 'loading' ? (
+                      <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+                    ) : uploadStatus === 'success' ? (
+                      <CheckCircle2 className="w-6 h-6 text-green-500" />
+                    ) : uploadStatus === 'error' ? (
+                      <div className="w-6 h-6 rounded-full border-2 border-red-200" />
+                    ) : (
+                      <div className="w-6 h-6 rounded-full border-2 border-slate-200" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className={`font-medium ${uploadStatus === 'loading' ? 'text-amber-600' : uploadStatus === 'success' ? 'text-green-600' : uploadStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
+                      Mengunggah file
+                    </p>
+                  </div>
+                </div>
+
+                {/* OCR Status */}
+                <div className="flex items-center gap-4 py-3 transition-all">
+                  <div className="flex-shrink-0">
+                    {ocrStatus === 'loading' ? (
+                      <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+                    ) : ocrStatus === 'success' ? (
+                      <CheckCircle2 className="w-6 h-6 text-green-500" />
+                    ) : ocrStatus === 'error' ? (
+                      <div className="w-6 h-6 rounded-full border-2 border-red-200" />
+                    ) : (
+                      <div className="w-6 h-6 rounded-full border-2 border-slate-200" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className={`font-medium ${ocrStatus === 'loading' ? 'text-amber-600 animate-pulse' : ocrStatus === 'success' ? 'text-green-600' : ocrStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
+                      Membaca gambar
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 

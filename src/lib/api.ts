@@ -5,12 +5,12 @@ const SERVICE_BASE_URL = process.env.NEXT_PUBLIC_SERVICE_API_URL || 'https://ser
 
 export const ocrApi = axios.create({
   baseURL: OCR_BASE_URL,
-  timeout: 30000, 
+  timeout: 30000,
 });
 
 export const serviceApi = axios.create({
   baseURL: SERVICE_BASE_URL,
-  timeout: 10000, 
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -20,7 +20,7 @@ export const serviceApi = axios.create({
 serviceApi.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('access_token'); 
+      const token = localStorage.getItem('access_token');
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
