@@ -212,26 +212,26 @@ export default function HomePage() {
                     </div>
                 </div>
                 
-                <div className="flex flex-col items-center md:items-end md:w-2/3">
-                    <div className="flex flex-col items-center w-full md:w-auto">
-                        <h4 className="text-white font-serif font-bold mb-6 text-lg text-center">Kontak Peneliti & Pengembang</h4>
+                <div className="flex flex-col items-center md:items-end w-full md:w-2/3 mt-8 md:mt-0">
+                    <div className="flex flex-col items-center md:items-end w-full">
+                        <h4 className="text-white font-serif font-bold mb-6 text-lg text-center md:text-right">Kontak Peneliti & Pengembang</h4>
                         <div className="flex flex-col md:flex-row justify-center md:justify-end gap-4 text-left w-full md:w-auto">
                             
                             {/* Researcher 1 */}
                             <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-gold/40 p-5 rounded-2xl transition-all duration-300 w-full md:w-auto shadow-lg hover:shadow-brand-gold/10 flex flex-col items-start gap-1 relative overflow-hidden group">
                                 <div className="absolute -right-8 -top-8 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl group-hover:bg-brand-gold/20 transition-all duration-500"></div>
                                 
-                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-nowrap pr-8">
+                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-normal lg:whitespace-nowrap pr-0 lg:pr-8">
                                     Ir. I Made Subrata Sandhiyasa, S.Kom., M.Kom., IPM
                                 </p>
                                 
                                 <div className="flex items-center justify-start gap-2 mt-2 relative z-10">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></div>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse flex-shrink-0"></div>
                                     <p className="text-brand-gold font-bold text-[10px] tracking-widest uppercase">INSTIKI</p>
                                 </div>
                                 
                                 <a href="mailto:subrata.sandhiyasa@instiki.ac.id" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mt-3 relative z-10 group/mail">
-                                    <svg className="w-4 h-4 text-gray-500 group-hover/mail:text-brand-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-gray-500 group-hover/mail:text-brand-gold transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     <span className="text-xs font-medium">Hubungi via Email</span>
@@ -242,17 +242,17 @@ export default function HomePage() {
                             <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-gold/40 p-5 rounded-2xl transition-all duration-300 w-full md:w-auto shadow-lg hover:shadow-brand-gold/10 flex flex-col items-start gap-1 relative overflow-hidden group">
                                 <div className="absolute -right-8 -top-8 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl group-hover:bg-brand-gold/20 transition-all duration-500"></div>
                                 
-                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-nowrap pr-8">
+                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-normal lg:whitespace-nowrap pr-0 lg:pr-8">
                                     I Made Agus Oka Gunawan, S.Kom., M.Kom
                                 </p>
                                 
                                 <div className="flex items-center justify-start gap-2 mt-2 relative z-10">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></div>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse flex-shrink-0"></div>
                                     <p className="text-brand-gold font-bold text-[10px] tracking-widest uppercase">Politeknik Negeri Bali</p>
                                 </div>
                                 
                                 <a href="mailto:okagunawan@pnb.ac.id" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mt-3 relative z-10 group/mail">
-                                    <svg className="w-4 h-4 text-gray-500 group-hover/mail:text-brand-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-gray-500 group-hover/mail:text-brand-gold transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     <span className="text-xs font-medium">Hubungi via Email</span>
