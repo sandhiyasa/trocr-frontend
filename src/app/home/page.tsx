@@ -76,9 +76,9 @@ export default function HomePage() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                         </svg>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 text-brand-dark font-serif">Visual OCR (TrOCR)</h3>
+                    <h3 className="text-xl font-bold mb-3 text-brand-dark font-serif">Baca Aksara Bali Melalui Gambar</h3>
                     <p className="text-gray-600 leading-relaxed text-sm">
-                        Pindai foto kamus, lontar kuno, atau papan jalan. AI berbasis arsitektur <i>Transformer OCR</i> kami akan mengekstraksi Aksara Bali dari gambar menjadi teks digital dengan akurasi tinggi.
+                        Pindai foto kamus, lontar kuno, atau papan jalan. AI kami akan mengekstraksi Aksara Bali dari gambar menjadi teks digital dengan akurasi tinggi.
                     </p>
                 </Link>
             </div>
@@ -92,7 +92,7 @@ export default function HomePage() {
                 <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">Ditenagai oleh Arsitektur AI Modern</h2>
                 <div className="w-24 h-1 bg-brand-gold mx-auto"></div>
                 <p className="mt-6 text-gray-600 max-w-2xl mx-auto text-lg">
-                    Menggabungkan ketajaman pengolahan citra klasik dengan kecerdasan <i>Transformer-based OCR (TrOCR)</i> untuk hasil transliterasi yang akurat.
+                    Menggabungkan ketajaman pengolahan citra klasik dengan kecerdasan <i>AI</i> untuk hasil transliterasi yang akurat.
                 </p>
             </div>
 
@@ -106,16 +106,16 @@ export default function HomePage() {
                 </div>
                 <div className="bg-white p-8 rounded-lg shadow-lg border-t-4 border-brand-gold hover:-translate-y-2 transition-transform duration-300 shadow-[0_0_40px_rgba(200,155,60,0.15)]">
                     <div className="w-14 h-14 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center text-2xl font-bold font-serif mb-6 shadow-md">2</div>
-                    <h3 className="text-xl font-bold mb-3 text-brand-dark">Pre-processing Otsu</h3>
+                    <h3 className="text-xl font-bold mb-3 text-brand-dark">Diteksi Aksara Bali</h3>
                     <p className="text-gray-600 leading-relaxed">
-                        Algoritma secara otomatis menghilangkan <i>noise</i>, bayangan, dan tekstur kertas, mengubah gambar menjadi hitam-putih pekat yang sempurna untuk AI.
+                        Algoritma secara otomatis mendeteksi aksara Bali dari gambar yang diunggah.
                     </p>
                 </div>
                 <div className="bg-white p-8 rounded-lg shadow-lg border-t-4 border-brand-accent hover:-translate-y-2 transition-transform duration-300">
                     <div className="w-14 h-14 bg-brand-accent text-white rounded-full flex items-center justify-center text-2xl font-bold font-serif mb-6 shadow-md">3</div>
-                    <h3 className="text-xl font-bold mb-3 text-brand-dark">Ekstraksi TrOCR</h3>
+                    <h3 className="text-xl font-bold mb-3 text-brand-dark">Transliterasi</h3>
                     <p className="text-gray-600 leading-relaxed">
-                        Model Deep Learning mutakhir membaca morfologi aksara dan menerjemahkannya ke dalam teks Latin (Romanisasi) dalam hitungan detik.
+                        AI membaca hasil deteksi dan menerjemahkannya ke dalam teks Latin dalam hitungan detik.
                     </p>
                 </div>
             </div>
@@ -152,7 +152,7 @@ export default function HomePage() {
                         </li>
                     </ul>
                     <Link href="/ocr" className="inline-block border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark font-bold px-6 py-3 rounded-sm transition-all">
-                        Menuju Web Aplikasi TrOCR &rarr;
+                        Menuju Web Aplikasi Baca Aksara Bali &rarr;
                     </Link>
                 </div>
 
@@ -182,9 +182,9 @@ export default function HomePage() {
                                     <div className="flex items-center gap-4 mb-4 border-b border-gray-800 pb-4">
                                         <div className="bg-white p-2 rounded w-24 h-12 flex items-center justify-center italic text-black font-serif opacity-90"></div>
                                         <div className="text-gray-500 text-sm animate-pulse">&rarr;</div>
-                                        <div className="text-brand-gold text-lg font-medium tracking-wide">Pancasila</div>
+                                        <div className="text-brand-gold text-lg font-medium tracking-wide">Aksara Bali Digital</div>
                                     </div>
-                                    <p className="text-gray-300 text-sm italic">"Teks berhasil dibaca dan diproses menggunakan metode Otsu Thresholding dan arsitektur TrOCR."</p>
+                                    <p className="text-gray-300 text-sm italic">"Teks berhasil dibaca dan diproses menggunakan metode Otsu Thresholding dan arsitektur AI."</p>
                                 </div>
                             </div>
                         </div>
@@ -199,9 +199,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-6 md:mb-0 text-center md:text-left">
-                    <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
-                        <div className="w-8 h-8 rounded-full bg-brand-gold flex items-center justify-center text-brand-dark font-serif font-bold text-sm">R</div>
-                        <span className="font-serif font-bold text-xl text-white">Read<span className="text-brand-gold">Bali</span></span>
+                    <div className="flex items-center justify-center md:justify-start mb-2">
+                        <img 
+                          src="/img/readbalilogo-transparant.png" 
+                          alt="Readbali Logo" 
+                          className="h-20 md:h-24 w-auto object-contain"
+                        />
                     </div>
                     <p className="text-sm">Mendigitalkan warisan lontar dan aksara Bali untuk generasi mendatang.</p>
                 </div>

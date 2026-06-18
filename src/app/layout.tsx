@@ -9,8 +9,17 @@ import CaptchaProvider from '@/components/providers/CaptchaProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ReadBali - Portal Digitalisasi Aksara Bali',
-  description: 'Super App untuk Kamus, OCR Lontar, Kuis, dan AI Chatbot Aksara Bali.',
+  title: 'Readbali - Portal Digitalisasi Aksara Bali',
+  description: 'Platform OCR dan Kamus Aksara Bali terlengkap untuk membaca, menerjemahkan, dan mendigitalkan lontar secara otomatis.',
+  keywords: 'kamus bali, aksara bali, ocr aksara bali, baca aksara bali',
+  icons: {
+    icon: [
+      { url: '/img/readbaliicon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/img/readbaliicon.png' },
+    ],
+  },
 };
 
 export default function RootLayout({

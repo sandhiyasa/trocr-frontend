@@ -100,8 +100,12 @@ export default function AuthPrompt({ title, description }: AuthPromptProps) {
       <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center w-full">
-        <div className="bg-gradient-to-tr from-amber-100 to-amber-50 p-4 rounded-2xl mb-5 text-amber-600 shadow-sm border border-amber-200/50">
-          <ShieldCheck className="w-10 h-10" />
+        <div className="mb-5">
+          <img 
+            src="/img/readbalilogo-transparant.png" 
+            alt="Readbali Logo" 
+            className="h-14 w-auto object-contain" 
+          />
         </div>
         
         <h3 className="text-2xl font-extrabold text-slate-800 mb-2 tracking-tight">{title}</h3>

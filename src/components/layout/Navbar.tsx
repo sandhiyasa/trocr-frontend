@@ -38,12 +38,11 @@ export default function Navbar() {
           {/* Logo Brand */}
           <div className="flex items-center gap-2">
             <Link href="/home" className="flex items-center gap-2 group">
-              <div className="bg-amber-600 p-2 rounded-lg group-hover:bg-amber-700 transition-colors">
-                <BookOpen className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-extrabold text-slate-800 tracking-tight">
-                Read<span className="text-amber-600">Bali</span>
-              </span>
+              <img 
+                src="/img/readbalilogoheader-transparant.png" 
+                alt="Readbali Header Logo" 
+                className="h-14 md:h-16 w-auto object-contain"
+              />
             </Link>
           </div>
 
