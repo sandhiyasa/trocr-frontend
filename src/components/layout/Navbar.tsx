@@ -36,12 +36,12 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           
           {/* Logo Brand */}
-          <div className="flex items-center gap-2">
-            <Link href="/home" className="flex items-center gap-2 group">
+          <div className="flex items-center gap-2 flex-1">
+            <Link href="/home" className="flex items-center gap-2 group max-w-[70vw]">
               <img 
                 src="/img/readbalilogoheader-transparant.png" 
                 alt="Readbali Header Logo" 
-                className="h-14 md:h-16 w-auto object-contain"
+                className="h-14 md:h-16 w-auto max-w-full object-contain"
               />
             </Link>
           </div>
@@ -63,7 +63,7 @@ export default function Navbar() {
           </div>
 
           {/* User Desktop / Mobile Toggle */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-shrink-0 z-50">
             {isAuthenticated && user && (
               <div className="hidden md:flex items-center relative" ref={dropdownRef}>
                 <button 
@@ -95,12 +95,13 @@ export default function Navbar() {
             )}
             
             {/* Hamburger Button (Mobile) */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden flex items-center relative z-50">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-slate-600 hover:text-amber-600 focus:outline-none"
+                className="text-slate-600 hover:text-amber-600 focus:outline-none p-2"
+                aria-label="Toggle Menu"
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
               </button>
             </div>
           </div>
@@ -110,7 +111,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 absolute w-full shadow-lg">
+        <div className="md:hidden bg-white border-b border-slate-200 w-full shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
           <div className="px-4 pt-2 pb-6 space-y-1">
             <Link href="/home" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/home' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
               Beranda
