@@ -9,9 +9,9 @@ import CaptchaProvider from '@/components/providers/CaptchaProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Readbali - Portal Digitalisasi Aksara Bali',
-  description: 'Platform OCR dan Kamus Aksara Bali terlengkap untuk membaca, menerjemahkan, dan mendigitalkan lontar secara otomatis.',
-  keywords: 'kamus bali, aksara bali, ocr aksara bali, baca aksara bali',
+  title: 'Kamus Bahasa Bali & OCR Aksara Bali - Readbali',
+  description: 'Kamus Bahasa Bali terlengkap dan Platform OCR Aksara Bali untuk membaca, menerjemahkan, dan mendigitalkan lontar secara otomatis.',
+  keywords: 'kamus bahasa bali, aksara bali, ocr aksara bali, baca aksara bali, terjemahan bahasa bali',
   icons: {
     icon: [
       { url: '/img/readbaliicon.png', type: 'image/png' },
