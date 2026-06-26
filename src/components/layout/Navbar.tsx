@@ -58,7 +58,7 @@ export default function Navbar() {
               Baca Aksara
             </Link>
             <Link href="/kuis" className={`font-medium transition-colors ${pathname === '/kuis' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
-              Kuis Aksara
+              Nulis Aksara Bali
             </Link>
           </div>
 
@@ -123,7 +123,7 @@ export default function Navbar() {
               Baca Aksara
             </Link>
             <Link href="/kuis" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/kuis' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
-              Kuis Aksara
+              Nulis Aksara Bali
             </Link>
 
             {isAuthenticated && user && (
