@@ -120,10 +120,15 @@ export default function NulisAksaraBaliPage() {
     }
   };
 
-  // Bersihkan canvas setiap kali soal diubah
+  // Bersihkan canvas dan pusatkan scroll setiap kali soal diubah
   useEffect(() => {
     clearCanvas();
-  }, [currentQuestionIndex]);
+    // Auto-scroll ke tengah agar teks selalu terlihat pada layar kecil
+    const wrapper = containerRef.current?.parentElement;
+    if (wrapper) {
+      wrapper.scrollLeft = (wrapper.scrollWidth - wrapper.clientWidth) / 2;
+    }
+  }, [currentQuestionIndex, quizData]);
 
   // ALGORITMA KOMPARASI PIKSEL (FRONTEND VALIDATION)
   const cekHasil = () => {
@@ -142,7 +147,7 @@ export default function NulisAksaraBaliPage() {
     const offCtx = offCanvas.getContext("2d");
     if (!offCtx) return;
 
-    const fontSize = 120;
+    const fontSize = 180;
     offCtx.font = `${fontSize}px "Noto Sans Balinese", sans-serif`;
     offCtx.textAlign = "center";
     offCtx.textBaseline = "middle";
@@ -217,6 +222,21 @@ export default function NulisAksaraBaliPage() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center px-4 relative overflow-x-hidden py-10">
+      <style dangerouslySetInnerHTML={{__html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          height: 12px;
+          display: block;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #fef3c7; 
+          border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: #fbbf24; 
+          border-radius: 8px;
+          border: 2px solid #fef3c7;
+        }
+      `}} />
       {/* Background Ornamen Cahaya Abstrak */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-amber-200/40 rounded-full blur-3xl -z-10 pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl -z-10 pointer-events-none" />
@@ -253,17 +273,17 @@ export default function NulisAksaraBaliPage() {
             </p>
           </div>
 
-          <div className="mb-6 flex flex-col items-center">
-            <div 
-              ref={containerRef}
-              className="relative w-[600px] max-w-full aspect-[2/1] bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-inner touch-none"
-              style={{ maxHeight: "300px" }}
-            >
+          <div className="mb-6 flex flex-col items-center w-full max-w-full">
+            <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
+              <div 
+                ref={containerRef}
+                className="relative mx-auto flex-shrink-0 w-[1200px] h-[400px] bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-inner touch-none"
+              >
               {/* Layer Bawah: Menampilkan aksara_bali sebagai referensi */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none bg-slate-50/50">
                 <span 
-                  className="text-slate-300 opacity-30 font-balinese drop-shadow-sm" 
-                  style={{ fontSize: "120px", lineHeight: 1 }}
+                  className="text-slate-300 opacity-30 font-balinese drop-shadow-sm whitespace-nowrap" 
+                  style={{ fontSize: "180px", lineHeight: 1 }}
                 >
                   {currentQuestion?.aksara_bali}
                 </span>
@@ -271,8 +291,8 @@ export default function NulisAksaraBaliPage() {
 
               <canvas
                 ref={canvasRef}
-                width={600}
-                height={300}
+                width={1200}
+                height={400}
                 className="absolute top-0 left-0 w-full h-full cursor-crosshair touch-none"
                 onPointerDown={startDrawing}
                 onPointerMove={draw}
@@ -280,9 +300,11 @@ export default function NulisAksaraBaliPage() {
                 onPointerOut={stopDrawing}
                 onPointerCancel={stopDrawing}
               />
+              </div>
             </div>
-            <p className="text-sm text-slate-500 font-medium mt-3 flex items-center gap-2">
-              <span>Gunakan jari atau mouse untuk Nulis Aksara Bali di atas kanvas.</span>
+            <p className="text-sm text-slate-500 font-medium mt-3 text-center px-4">
+              Gunakan jari atau mouse untuk Nulis Aksara Bali di atas kanvas. <br className="sm:hidden" />
+              <span className="sm:hidden text-amber-600 font-semibold">(Geser kanvas ke kanan/kiri pada layar kecil)</span>
             </p>
           </div>
 
