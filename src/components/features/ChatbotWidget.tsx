@@ -211,14 +211,14 @@ export default function ChatbotWidget() {
         <div className="bg-white w-[90vw] sm:w-[440px] rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
           
           {/* Header Bli Bot */}
-          <div className="bg-gradient-to-r from-amber-600 to-amber-700 p-4 flex justify-between items-center text-white">
+          <div className="bg-gradient-to-r from-brand-neon-red to-red-600 p-4 flex justify-between items-center text-white">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 p-1.5 rounded-full">
                 <img src="/img/chatbot.png" alt="Bli Bot" className="w-6 h-6 object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-sm">Bli Bot</h3>
-                <p className="text-xs text-amber-100 opacity-90">Asisten AI Readbali</p>
+                <p className="text-xs text-brand-neon-red/20 opacity-90">Asisten AI Balinesescript</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1.5 rounded-full transition-colors">
@@ -232,7 +232,7 @@ export default function ChatbotWidget() {
             {!isAuthenticated ? (
               // --- TAMPILAN JIKA BELUM LOGIN ---
               <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2.5">
-                <div className="bg-amber-100 p-3 rounded-full mb-1 text-amber-600">
+                <div className="bg-brand-neon-red/20 p-3 rounded-full mb-1 text-brand-neon-red">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h4 className="font-bold text-slate-800 text-sm">Autentikasi Diperlukan</h4>
@@ -276,7 +276,7 @@ export default function ChatbotWidget() {
                   {messages.map((msg) => (
                     msg.sender === 'bot' ? (
                       <div key={msg.id} className="flex items-start gap-2">
-                        <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
+                        <div className="bg-brand-neon-red/20 p-1.5 rounded-full flex-shrink-0 mt-1">
                           <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
                         </div>
                         <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-slate-700 shadow-sm leading-relaxed flex flex-col min-w-[60px]">
@@ -293,7 +293,7 @@ export default function ChatbotWidget() {
                             <UserCircle className="w-5 h-5 text-slate-600" />
                           )}
                         </div>
-                        <div className="bg-amber-600 text-white rounded-2xl rounded-tr-none px-4 py-2 text-sm shadow-sm leading-relaxed flex flex-col min-w-[60px]">
+                        <div className="bg-brand-neon-red text-white rounded-2xl rounded-tr-none px-4 py-2 text-sm shadow-sm leading-relaxed flex flex-col min-w-[60px]">
                           {renderChatText(msg.text)}
                           <span className="text-[10px] text-amber-200 self-end mt-1 leading-none">{formatTime(msg.time)}</span>
                         </div>
@@ -303,7 +303,7 @@ export default function ChatbotWidget() {
 
                   {isTyping && (
                     <div className="flex items-start gap-2">
-                      <div className="bg-amber-100 p-1.5 rounded-full flex-shrink-0 mt-1">
+                      <div className="bg-brand-neon-red/20 p-1.5 rounded-full flex-shrink-0 mt-1">
                         <img src="/img/chatbot.png" alt="Bot Icon" className="w-5 h-5 object-contain" />
                       </div>
                       <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-700 shadow-sm flex items-center gap-1">
@@ -327,12 +327,12 @@ export default function ChatbotWidget() {
                       onKeyDown={handleKeyDown}
                       disabled={isTyping}
                       placeholder="Tanya Bli Bot..."
-                      className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-sm disabled:opacity-50 disabled:bg-slate-50"
+                      className="w-full bg-white border border-slate-300 rounded-full pl-4 pr-12 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-neon-red/100 focus:border-transparent shadow-sm disabled:opacity-50 disabled:bg-slate-50"
                     />
                     <button 
                       onClick={handleSendMessage}
                       disabled={isTyping || !inputText.trim()}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-amber-600 hover:bg-amber-700 text-white p-2 rounded-full transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-neon-red hover:bg-red-600 text-white p-2 rounded-full transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="w-4 h-4 ml-0.5" />
                     </button>
@@ -351,7 +351,7 @@ export default function ChatbotWidget() {
       {/* Tombol Mengambang (Floating Action Button) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`${isOpen ? 'bg-slate-800 rotate-90' : 'bg-amber-600 hover:bg-amber-700 hover:-translate-y-1'} text-white p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,6,0.4)] transition-all duration-300`}
+        className={`${isOpen ? 'bg-slate-800 rotate-90' : 'bg-brand-neon-red hover:bg-red-600 hover:-translate-y-1'} text-white p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,6,0.4)] transition-all duration-300`}
       >
         {isOpen ? <X className="w-6 h-6 -rotate-90 transition-transform" /> : <MessageSquare className="w-7 h-7" />}
       </button>

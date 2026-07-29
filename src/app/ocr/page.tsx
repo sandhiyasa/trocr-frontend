@@ -100,7 +100,7 @@ export default function OcrPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-10 w-full flex-grow">
       {/* Header Info */}
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700 mb-4 tracking-tight">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-neon-red/100 to-red-600 mb-4 tracking-tight">
           Baca Aksara Bali <br className="hidden md:block" />
           dalam Satu Ketukan
         </h2>
@@ -120,10 +120,10 @@ export default function OcrPage() {
           {!file && !isLoading && (
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="relative group cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-2xl p-6 md:p-12 bg-slate-50 hover:bg-amber-50 hover:border-amber-400 transition-all duration-300 max-w-3xl mx-auto"
+              className="relative group cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-2xl p-6 md:p-12 bg-slate-50 hover:bg-brand-neon-red/10 hover:border-amber-400 transition-all duration-300 max-w-3xl mx-auto"
             >
               <div className="p-4 md:p-5 bg-white rounded-full shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
-                <UploadCloud className="w-10 h-10 text-amber-500" />
+                <UploadCloud className="w-10 h-10 text-brand-neon-red/100" />
               </div>
               <p className="text-slate-700 font-bold mb-2 text-center text-lg">Klik atau Tarik Gambar ke Sini</p>
               <p className="text-sm text-slate-400 text-center">Mendukung format JPG, PNG (Maks. 5MB)</p>
@@ -145,7 +145,7 @@ export default function OcrPage() {
                 <div className="flex items-center gap-4 py-3 px-6 bg-slate-50 rounded-xl border border-slate-100 transition-all">
                   <div className="flex-shrink-0">
                     {uploadStatus === 'loading' ? (
-                      <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+                      <Loader2 className="w-6 h-6 text-brand-neon-red/100 animate-spin" />
                     ) : uploadStatus === 'success' ? (
                       <CheckCircle2 className="w-6 h-6 text-green-500" />
                     ) : uploadStatus === 'error' ? (
@@ -155,7 +155,7 @@ export default function OcrPage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className={`font-semibold ${uploadStatus === 'loading' ? 'text-amber-600' : uploadStatus === 'success' ? 'text-green-600' : uploadStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
+                    <p className={`font-semibold ${uploadStatus === 'loading' ? 'text-brand-neon-red' : uploadStatus === 'success' ? 'text-green-600' : uploadStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
                       Mengunggah file gambar...
                     </p>
                   </div>
@@ -165,7 +165,7 @@ export default function OcrPage() {
                 <div className="flex items-center gap-4 py-3 px-6 bg-slate-50 rounded-xl border border-slate-100 transition-all">
                   <div className="flex-shrink-0">
                     {ocrStatus === 'loading' ? (
-                      <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+                      <Loader2 className="w-6 h-6 text-brand-neon-red/100 animate-spin" />
                     ) : ocrStatus === 'success' ? (
                       <CheckCircle2 className="w-6 h-6 text-green-500" />
                     ) : ocrStatus === 'error' ? (
@@ -175,7 +175,7 @@ export default function OcrPage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className={`font-semibold ${ocrStatus === 'loading' ? 'text-amber-600 animate-pulse' : ocrStatus === 'success' ? 'text-green-600' : ocrStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
+                    <p className={`font-semibold ${ocrStatus === 'loading' ? 'text-brand-neon-red animate-pulse' : ocrStatus === 'success' ? 'text-green-600' : ocrStatus === 'error' ? 'text-red-500' : 'text-slate-400'}`}>
                       Sedang memproses gambar..
                     </p>
                   </div>
@@ -190,8 +190,8 @@ export default function OcrPage() {
               
               {/* Pesan Testing */}
               <div className="mb-8">
-                <div className="bg-amber-50 text-amber-800 p-4 rounded-xl flex items-start gap-3 border border-amber-200 shadow-sm text-sm md:text-base">
-                  <Info className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600" />
+                <div className="bg-brand-neon-red/10 text-amber-800 p-4 rounded-xl flex items-start gap-3 border border-amber-200 shadow-sm text-sm md:text-base">
+                  <Info className="w-5 h-5 flex-shrink-0 mt-0.5 text-brand-neon-red" />
                   <div>
                     <p className="font-semibold text-amber-900 mb-1">Informasi Pemrosesan (Mode Testing)</p>
                     <p className="text-amber-800/90 leading-relaxed">
@@ -224,9 +224,9 @@ export default function OcrPage() {
                 {/* Kolom Teks Hasil TrOCR */}
                 <div className="flex flex-col gap-6">
                   {/* Aksara Bali */}
-                  <div className="bg-gradient-to-br from-amber-50 to-white rounded-2xl p-6 border border-amber-100 shadow-sm flex-1 flex flex-col">
+                  <div className="bg-gradient-to-br from-brand-neon-red/10 to-white rounded-2xl p-6 border border-brand-neon-red/20 shadow-sm flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>
+                      <div className="w-2 h-2 bg-brand-neon-red/100 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>
                       <h3 className="text-sm font-bold text-amber-900 uppercase tracking-widest">Hasil TrOCR (Aksara Bali)</h3>
                     </div>
                     <p className="text-3xl md:text-5xl text-slate-800 font-bali leading-loose overflow-x-auto flex-1 min-h-[80px]">
@@ -277,7 +277,7 @@ export default function OcrPage() {
 
                       {/* Highlight Label untuk 2 potongan pertama */}
                       {idx < 2 && (
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-amber-500 to-amber-400 text-white text-[10px] md:text-xs font-bold text-center py-1.5 uppercase tracking-wider shadow-lg">
+                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-brand-neon-red/100 to-amber-400 text-white text-[10px] md:text-xs font-bold text-center py-1.5 uppercase tracking-wider shadow-lg">
                           Dibaca TrOCR
                         </div>
                       )}
@@ -290,7 +290,7 @@ export default function OcrPage() {
               <div className="mt-10 flex justify-center pt-4">
                 <button
                   onClick={resetUI}
-                  className="flex items-center gap-2 px-8 py-3.5 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-full hover:bg-slate-50 hover:text-amber-600 hover:border-amber-300 hover:shadow-md transition-all active:scale-95 text-base md:text-lg"
+                  className="flex items-center gap-2 px-8 py-3.5 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-full hover:bg-slate-50 hover:text-brand-neon-red hover:border-amber-300 hover:shadow-md transition-all active:scale-95 text-base md:text-lg"
                 >
                   <RefreshCw className="w-5 h-5" />
                   Unggah Gambar Lain

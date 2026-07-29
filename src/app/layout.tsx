@@ -1,23 +1,24 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Space_Grotesk, Manrope } from 'next/font/google';
 import './globals.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from '@/components/layout/Navbar';
 import ChatbotWidget from '@/components/features/ChatbotWidget';
 import CaptchaProvider from '@/components/providers/CaptchaProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
 
 export const metadata: Metadata = {
-  title: 'Kamus Bahasa Bali & OCR Aksara Bali - Readbali',
+  title: 'Kamus Bahasa Bali & OCR Aksara Bali - Balinesescript',
   description: 'Kamus Bahasa Bali terlengkap dan Platform OCR Aksara Bali untuk membaca, menerjemahkan, dan mendigitalkan lontar secara otomatis.',
-  keywords: 'kamus bahasa bali, aksara bali, ocr aksara bali, baca aksara bali, terjemahan bahasa bali',
+  keywords: 'kamus bahasa bali, aksara bali, ocr aksara bali, baca aksara bali, terjemahan bahasa bali, balinesescript',
   icons: {
     icon: [
-      { url: '/img/readbaliicon.png', type: 'image/png' },
+      { url: '/img/baliscript_logo.png', type: 'image/png' },
     ],
     apple: [
-      { url: '/img/readbaliicon.png' },
+      { url: '/img/baliscript_logo.png' },
     ],
   },
 };
@@ -29,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${inter.className} bg-slate-50 text-slate-900 min-h-screen flex flex-col`}>
+      <body className={`${spaceGrotesk.variable} ${manrope.variable} font-sans bg-brand-dark-bg-bg text-brand-bright-white min-h-screen flex flex-col`}>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
           <CaptchaProvider>
             <Navbar />

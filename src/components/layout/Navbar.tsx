@@ -31,7 +31,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-slate-50/80 border-b border-slate-200">
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-brand-charcoal/80 border-b border-brand-accent-grey">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
@@ -39,8 +39,8 @@ export default function Navbar() {
           <div className="flex items-center gap-2 flex-1">
             <Link href="/home" className="flex items-center gap-2 group max-w-[70vw]">
               <img 
-                src="/img/readbalilogoheader-transparant.png" 
-                alt="Readbali Header Logo" 
+                src="/img/baliscript_logo_horizontal.png" 
+                alt="Balinesescript Header Logo" 
                 className="h-14 md:h-16 w-auto max-w-full object-contain"
               />
             </Link>
@@ -48,16 +48,16 @@ export default function Navbar() {
 
           {/* Navigasi Desktop */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/home" className={`font-medium transition-colors ${pathname === '/home' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
+            <Link href="/home" className={`font-medium transition-colors ${pathname === '/home' ? 'text-brand-neon-red' : 'text-brand-bright-white hover:text-brand-neon-red'}`}>
               Beranda
             </Link>
-            <Link href="/" className={`font-medium transition-colors ${pathname === '/' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
+            <Link href="/" className={`font-medium transition-colors ${pathname === '/' ? 'text-brand-neon-red' : 'text-brand-bright-white hover:text-brand-neon-red'}`}>
               Kamus
             </Link>
-            <Link href="/ocr" className={`font-medium transition-colors ${pathname === '/ocr' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
+            <Link href="/ocr" className={`font-medium transition-colors ${pathname === '/ocr' ? 'text-brand-neon-red' : 'text-brand-bright-white hover:text-brand-neon-red'}`}>
               Baca Aksara
             </Link>
-            <Link href="/kuis" className={`font-medium transition-colors ${pathname === '/kuis' ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}>
+            <Link href="/kuis" className={`font-medium transition-colors ${pathname === '/kuis' ? 'text-brand-neon-red' : 'text-brand-bright-white hover:text-brand-neon-red'}`}>
               Nulis Aksara Bali
             </Link>
           </div>
@@ -68,23 +68,23 @@ export default function Navbar() {
               <div className="hidden md:flex items-center relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                  className="flex items-center gap-2.5 hover:bg-slate-100 py-1.5 px-3 rounded-full transition-colors"
+                  className="flex items-center gap-2.5 hover:bg-brand-neon-red-grey py-1.5 px-3 rounded-full transition-colors"
                 >
                   {user.id === 'anon' ? (
-                    <UserCircle2 className="w-8 h-8 text-slate-400" />
+                    <UserCircle2 className="w-8 h-8 text-gray-400" />
                   ) : (
-                    <img src={user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} alt={user.name} className="w-8 h-8 rounded-full bg-slate-200 object-cover" />
+                    <img src={user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} alt={user.name} className="w-8 h-8 rounded-full bg-brand-neon-red-grey object-cover" />
                   )}
-                  <span className="text-sm font-semibold text-slate-700">{user.name}</span>
-                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                  <span className="text-sm font-semibold text-brand-bright-white">{user.name}</span>
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
 
                 {/* Dropdown Menu */}
                 {isProfileDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-lg py-1 z-50">
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-brand-charcoal border border-brand-accent-grey rounded-xl shadow-lg py-1 z-50">
                      <button 
                        onClick={() => { logout(); setIsProfileDropdownOpen(false); }} 
-                       className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium transition-colors"
+                       className="w-full text-left px-4 py-2.5 text-sm text-brand-neon-red hover:bg-brand-neon-red/10 flex items-center gap-2 font-medium transition-colors"
                      >
                        <LogOut className="w-4 h-4" />
                        Keluar
@@ -98,7 +98,7 @@ export default function Navbar() {
             <div className="md:hidden flex items-center relative z-50">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-slate-600 hover:text-amber-600 focus:outline-none p-2"
+                className="text-brand-bright-white hover:text-brand-neon-red focus:outline-none p-2"
                 aria-label="Toggle Menu"
               >
                 {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
@@ -111,35 +111,35 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 w-full shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
+        <div className="md:hidden bg-brand-dark-bg-bg border-b border-brand-accent-grey w-full shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
           <div className="px-4 pt-2 pb-6 space-y-1">
-            <Link href="/home" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/home' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
+            <Link href="/home" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/home' ? 'text-brand-neon-red bg-brand-neon-red/10' : 'text-brand-bright-white hover:bg-brand-charcoal hover:text-brand-neon-red'}`}>
               Beranda
             </Link>
-            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
+            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/' ? 'text-brand-neon-red bg-brand-neon-red/10' : 'text-brand-bright-white hover:bg-brand-charcoal hover:text-brand-neon-red'}`}>
               Kamus
             </Link>
-            <Link href="/ocr" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/ocr' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
+            <Link href="/ocr" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/ocr' ? 'text-brand-neon-red bg-brand-neon-red/10' : 'text-brand-bright-white hover:bg-brand-charcoal hover:text-brand-neon-red'}`}>
               Baca Aksara
             </Link>
-            <Link href="/kuis" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/kuis' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 hover:bg-slate-50 hover:text-amber-600'}`}>
+            <Link href="/kuis" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-3 rounded-md font-medium ${pathname === '/kuis' ? 'text-brand-neon-red bg-brand-neon-red/10' : 'text-brand-bright-white hover:bg-brand-charcoal hover:text-brand-neon-red'}`}>
               Nulis Aksara Bali
             </Link>
 
             {isAuthenticated && user && (
-              <div className="mt-4 pt-4 border-t border-slate-100 px-3">
+              <div className="mt-4 pt-4 border-t border-brand-accent-grey px-3">
                 <div className="flex items-center gap-3 mb-4">
                   {user.id === 'anon' ? (
-                    <UserCircle2 className="w-10 h-10 text-slate-400" />
+                    <UserCircle2 className="w-10 h-10 text-gray-400" />
                   ) : (
-                    <img src={user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} alt={user.name} className="w-10 h-10 rounded-full bg-slate-200 object-cover" />
+                    <img src={user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} alt={user.name} className="w-10 h-10 rounded-full bg-brand-neon-red-grey object-cover" />
                   )}
                   <div>
-                    <div className="font-medium text-slate-800">{user.name}</div>
-                    <div className="text-xs text-slate-500">{user.email}</div>
+                    <div className="font-medium text-brand-bright-white">{user.name}</div>
+                    <div className="text-xs text-gray-400">{user.email}</div>
                   </div>
                 </div>
-                <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="w-full text-left text-red-600 hover:bg-red-50 px-3 py-2.5 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="w-full text-left text-brand-neon-red hover:bg-brand-neon-red/10 px-3 py-2.5 rounded-lg font-medium flex items-center gap-2 transition-colors">
                   <LogOut className="w-4 h-4" />
                   Keluar
                 </button>

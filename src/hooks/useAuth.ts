@@ -35,7 +35,7 @@ export function useAuth() {
           setUser({ id: 'anon', name: 'Pengguna Anonim', email: 'anonim@readbali.com' });
           setIsAuthenticated(true);
       } else if (token.startsWith('dummy_') || token.startsWith('access_')) {
-          setUser({ id: '1', name: 'User ReadBali', email: 'user@readbali.com' });
+          setUser({ id: '1', name: 'User Balinesescript', email: 'user@readbali.com' });
           setIsAuthenticated(true);
       }
     } catch (error) {

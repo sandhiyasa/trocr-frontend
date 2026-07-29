@@ -83,7 +83,7 @@ export default function NulisAksaraBaliPage() {
 
     const { x, y } = getCoordinates(e);
     ctx.lineTo(x, y);
-    ctx.strokeStyle = "#ea580c"; // Warna oranye (amber-600) untuk menyesuaikan tema
+    ctx.strokeStyle = "#ea580c"; // Warna oranye (brand-neon-red) untuk menyesuaikan tema
     ctx.lineWidth = 6;          
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -201,7 +201,7 @@ export default function NulisAksaraBaliPage() {
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-amber-200/40 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl -z-10" />
         <div className="flex flex-col items-center justify-center animate-in fade-in duration-500">
-           <Loader2 className="w-10 h-10 text-amber-600 animate-spin mb-4" />
+           <Loader2 className="w-10 h-10 text-brand-neon-red animate-spin mb-4" />
            <p className="text-slate-500 font-medium animate-pulse tracking-wide">Menyiapkan Latihan Nulis Aksara Bali...</p>
         </div>
       </div>
@@ -243,30 +243,30 @@ export default function NulisAksaraBaliPage() {
 
       {/* Header Teks & SEO Content */}
       <div className="max-w-4xl w-full text-center space-y-6 z-10 mb-8 animate-in fade-in zoom-in-95 duration-500">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold mb-2 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-neon-red/20 text-amber-800 text-sm font-semibold mb-2 shadow-sm">
           <Sparkles className="w-4 h-4" />
           <span>Interaktif & Edukatif</span>
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-orange-500 tracking-tight leading-tight">
           Belajar <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-emerald-600">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon-red to-emerald-600">
             Nulis Aksara Bali
           </span>
         </h1>
         <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Platform interaktif <strong className="font-semibold text-amber-700">Nulis Aksara Bali</strong> untuk melatih kemampuan menulis Anda dengan panduan garis dan evaluasi skor presisi secara langsung!
+          Platform interaktif <strong className="font-semibold text-red-600">Nulis Aksara Bali</strong> untuk melatih kemampuan menulis Anda dengan panduan garis dan evaluasi skor presisi secara langsung!
         </p>
       </div>
 
       <div className="w-full max-w-2xl bg-white/80 backdrop-blur-md rounded-3xl shadow-xl overflow-hidden border border-slate-200/60 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
-        <div className="bg-amber-50 border-b border-amber-100 p-4 text-center">
+        <div className="bg-brand-neon-red/10 border-b border-brand-neon-red/20 p-4 text-center">
           <p className="text-amber-800 font-medium">Latihan {currentQuestionIndex + 1} dari {quizData.length}</p>
         </div>
 
         <div className="p-8 flex flex-col items-center">
           
-          <div className="mb-8 text-center bg-amber-50/50 px-8 py-4 rounded-2xl border border-amber-100/50">
+          <div className="mb-8 text-center bg-brand-neon-red/10/50 px-8 py-4 rounded-2xl border border-brand-neon-red/20/50">
             <h2 className="text-lg font-medium text-amber-800/80 mb-1">Tuliskan aksara untuk:</h2>
             <p className="text-3xl font-extrabold text-slate-900 capitalize tracking-wide">
               "{currentQuestion?.kata || currentQuestion?.indo}"
@@ -304,7 +304,7 @@ export default function NulisAksaraBaliPage() {
             </div>
             <p className="text-sm text-slate-500 font-medium mt-3 text-center px-4">
               Gunakan jari atau mouse untuk Nulis Aksara Bali di atas kanvas. <br className="sm:hidden" />
-              <span className="sm:hidden text-amber-600 font-semibold">(Geser kanvas ke kanan/kiri pada layar kecil)</span>
+              <span className="sm:hidden text-brand-neon-red font-semibold">(Geser kanvas ke kanan/kiri pada layar kecil)</span>
             </p>
           </div>
 
@@ -318,7 +318,7 @@ export default function NulisAksaraBaliPage() {
               </button>
               <button 
                 onClick={cekHasil}
-                className="px-8 py-3 rounded-xl bg-amber-600 text-white font-bold hover:bg-amber-700 transition-all shadow-md hover:shadow-lg active:scale-95"
+                className="px-8 py-3 rounded-xl bg-brand-neon-red text-white font-bold hover:bg-red-600 transition-all shadow-md hover:shadow-lg active:scale-95"
               >
                 Cek Hasil
               </button>
@@ -327,17 +327,17 @@ export default function NulisAksaraBaliPage() {
             {score !== null && (
               <div className={`mt-6 p-6 w-full max-w-sm rounded-2xl text-center shadow-sm border transition-all animate-in fade-in zoom-in-95 duration-300 ${
                 score > 80 ? 'bg-emerald-50 border-emerald-200' : 
-                score > 50 ? 'bg-amber-50 border-amber-200' : 
+                score > 50 ? 'bg-brand-neon-red/10 border-amber-200' : 
                 'bg-rose-50 border-rose-200'
               }`}>
                 <p className={`font-semibold mb-1 ${
                   score > 80 ? 'text-emerald-700/80' : 
-                  score > 50 ? 'text-amber-700/80' : 
+                  score > 50 ? 'text-red-600/80' : 
                   'text-rose-700/80'
                 }`}>Skor Kecocokan:</p>
                 <div className={`text-6xl font-black ${
                   score > 80 ? 'text-emerald-600' : 
-                  score > 50 ? 'text-amber-600' : 
+                  score > 50 ? 'text-brand-neon-red' : 
                   'text-rose-600'
                 }`}>
                   {score}%
@@ -345,7 +345,7 @@ export default function NulisAksaraBaliPage() {
                 {score > 80 ? (
                   <p className="text-emerald-700 font-bold mt-3">Luar biasa! Sangat rapi! 🌟</p>
                 ) : score > 50 ? (
-                  <p className="text-amber-700 font-bold mt-3">Lumayan, yuk coba lebih rapi! 👍</p>
+                  <p className="text-red-600 font-bold mt-3">Lumayan, yuk coba lebih rapi! 👍</p>
                 ) : (
                   <p className="text-rose-700 font-bold mt-3">Terlalu banyak coretan di luar garis. 😅</p>
                 )}
@@ -359,7 +359,7 @@ export default function NulisAksaraBaliPage() {
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all ${
                   currentQuestionIndex === 0 
                   ? 'text-slate-300 bg-slate-50 cursor-not-allowed' 
-                  : 'text-amber-600 hover:bg-amber-50 active:scale-95'
+                  : 'text-brand-neon-red hover:bg-brand-neon-red/10 active:scale-95'
                 }`}
               >
                 &larr; Sebelumnya
@@ -370,7 +370,7 @@ export default function NulisAksaraBaliPage() {
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all ${
                   currentQuestionIndex === quizData.length - 1 
                   ? 'text-slate-300 bg-slate-50 cursor-not-allowed' 
-                  : 'text-amber-600 hover:bg-amber-50 active:scale-95'
+                  : 'text-brand-neon-red hover:bg-brand-neon-red/10 active:scale-95'
                 }`}
               >
                 Selanjutnya &rarr;

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Sparkles, Loader2, BookOpen, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import AuthPrompt from '@/components/features/AuthPrompt';
+import { serviceApi } from '@/lib/api';
 
 interface KamusData {
   id: number;
@@ -24,9 +25,9 @@ const WordDetailModal = ({ item, onClose, onSelectRelated }: { item: KamusData, 
     const fetchRelated = async () => {
       setIsLoadingRelated(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVICE_API_URL}/guest/kataTerkait?q=${encodeURIComponent(item.kata)}`);
-        if (res.ok) {
-          const data = await res.json();
+        const res = await serviceApi.get(`/guest/kataTerkait?q=${encodeURIComponent(item.kata)}`);
+        if (res.status === 200) {
+           const data = res.data;
           if (isMounted) setRelatedWords(data);
         }
       } catch (error) {
@@ -63,7 +64,7 @@ const WordDetailModal = ({ item, onClose, onSelectRelated }: { item: KamusData, 
         </button>
 
         <div className="flex items-center gap-2 mb-4">
-          <BookOpen className="w-5 h-5 text-amber-600" />
+          <BookOpen className="w-5 h-5 text-brand-neon-red" />
           <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Detail Kamus</span>
         </div>
 
@@ -83,7 +84,7 @@ const WordDetailModal = ({ item, onClose, onSelectRelated }: { item: KamusData, 
             <p className="text-lg md:text-xl text-slate-800">{item.indo || '-'}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-amber-50/50 p-4 md:p-5 rounded-2xl border border-amber-100/50">
+            <div className="bg-brand-neon-red/10/50 p-4 md:p-5 rounded-2xl border border-brand-neon-red/20/50">
               <p className="text-xs md:text-sm font-semibold text-[#ea580c] uppercase tracking-wider mb-2">English</p>
               <p className="text-base md:text-lg text-slate-800">{item.english || '-'}</p>
             </div>
@@ -96,12 +97,12 @@ const WordDetailModal = ({ item, onClose, onSelectRelated }: { item: KamusData, 
           {/* Kata Terkait Section */}
           <div className="mt-8 pt-6 border-t border-slate-100">
              <div className="flex items-center gap-2 mb-4">
-               <Sparkles className="w-5 h-5 text-amber-600" />
+               <Sparkles className="w-5 h-5 text-brand-neon-red" />
                <h3 className="font-bold text-slate-800 text-lg">Kata Terkait</h3>
              </div>
              {isLoadingRelated ? (
                <div className="flex items-center justify-center py-4">
-                 <Loader2 className="w-6 h-6 text-amber-700 animate-spin" />
+                 <Loader2 className="w-6 h-6 text-red-600 animate-spin" />
                </div>
              ) : relatedWords.length > 0 ? (
                <div className="flex flex-wrap gap-2">
@@ -109,10 +110,10 @@ const WordDetailModal = ({ item, onClose, onSelectRelated }: { item: KamusData, 
                    <button 
                      key={related.id} 
                      onClick={() => onSelectRelated(related)}
-                     className="px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-md text-sm text-left hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-colors shadow-sm group"
+                     className="px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-md text-sm text-left hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors shadow-sm group"
                    >
                      <span className="font-semibold group-hover:text-white transition-colors">{related.kata}</span>
-                     {related.indo && <span className="ml-1 text-slate-500 group-hover:text-amber-100 transition-colors">- {related.indo}</span>}
+                     {related.indo && <span className="ml-1 text-slate-500 group-hover:text-brand-neon-red/20 transition-colors">- {related.indo}</span>}
                    </button>
                  ))}
                </div>
@@ -164,9 +165,9 @@ export default function Home() {
     const delayDebounceFn = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVICE_API_URL}/guest/dataKamus?q=${encodeURIComponent(query)}`);
-        if (res.ok) {
-          const data = await res.json();
+        const res = await serviceApi.get(`/guest/dataKamus?q=${encodeURIComponent(query)}`);
+        if (res.status === 200) {
+           const data = res.data;
           setSuggestions(data);
           setShowDropdown(true);
         }
@@ -188,9 +189,9 @@ export default function Home() {
     const fetchAlphabet = async () => {
       setIsLoadingAlphabet(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVICE_API_URL}/guest/dataKamus?q=${activeLetter}`);
-        if (res.ok) {
-           const data = await res.json();
+        const res = await serviceApi.get(`/guest/dataKamus?q=${activeLetter}`);
+        if (res.status === 200) {
+           const data = res.data;
            if (isMounted) {
              setAlphabetWords(data as KamusData[]);
            }
@@ -238,13 +239,13 @@ export default function Home() {
         
         {/* Header Teks */}
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold mb-2 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-neon-red/20 text-amber-800 text-sm font-semibold mb-2 shadow-sm">
             <Sparkles className="w-4 h-4" />
             <span>AI-Powered Balinese Dictionary</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-orange-500 tracking-tight leading-tight">
             Kamus Bahasa Bali & <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-emerald-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon-red to-emerald-600">
               Eksplorasi Aksara Bali
             </span>
           </h1>
@@ -255,7 +256,7 @@ export default function Home() {
 
         {isAuthLoading ? (
           <div className="flex flex-col items-center justify-center py-20 min-h-[40vh] animate-in fade-in duration-500">
-             <Loader2 className="w-10 h-10 text-amber-600 animate-spin mb-4" />
+             <Loader2 className="w-10 h-10 text-brand-neon-red animate-spin mb-4" />
              <p className="text-slate-500 font-medium animate-pulse tracking-wide">Menyiapkan Kamus...</p>
           </div>
         ) : !isAuthenticated ? (
@@ -271,9 +272,9 @@ export default function Home() {
             <div className="relative max-w-2xl mx-auto group pt-4" ref={dropdownRef}>
               <div className="absolute inset-y-0 left-0 pl-4 pt-4 flex items-center pointer-events-none">
                 {isSearching ? (
-                  <Loader2 className="h-6 w-6 text-amber-500 animate-spin" />
+                  <Loader2 className="h-6 w-6 text-brand-neon-red/100 animate-spin" />
                 ) : (
-                  <Search className="h-6 w-6 text-slate-400 group-focus-within:text-amber-600 transition-colors" />
+                  <Search className="h-6 w-6 text-slate-400 group-focus-within:text-brand-neon-red transition-colors" />
                 )}
               </div>
               <input
@@ -289,13 +290,13 @@ export default function Home() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleSearchSubmit();
                 }}
-                className="block w-full pl-14 pr-32 py-4 md:py-5 rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md text-base md:text-lg shadow-lg shadow-slate-200/50 placeholder:text-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all outline-none"
+                className="block w-full pl-14 pr-32 py-4 md:py-5 rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md text-base md:text-lg shadow-lg shadow-slate-200/50 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-neon-red/100 focus:border-transparent transition-all outline-none"
                 placeholder="Ketik min. 3 huruf (cth: pura, lontar)..."
               />
               <div className="absolute inset-y-0 right-2 pt-3 md:pt-4 flex items-center">
                 <button 
                   onClick={handleSearchSubmit}
-                  className="bg-amber-600 hover:bg-amber-700 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg active:scale-95 text-sm md:text-base"
+                  className="bg-brand-neon-red hover:bg-red-600 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg active:scale-95 text-sm md:text-base"
                 >
                   Cari
                 </button>
@@ -309,14 +310,14 @@ export default function Home() {
                       <div 
                         key={item.id} 
                         onClick={() => handleSelectWord(item)}
-                        className="px-6 py-4 hover:bg-amber-50/80 cursor-pointer border-b border-slate-100 last:border-0 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3"
+                        className="px-6 py-4 hover:bg-brand-neon-red/10/80 cursor-pointer border-b border-slate-100 last:border-0 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3"
                       >
                         <div className="flex-1">
                           <p className="font-bold text-slate-800 text-lg font-serif mb-1">{item.kata}</p>
                           <p className="text-sm text-slate-500 line-clamp-1">{item.indo}</p>
                         </div>
                         {item.english && (
-                          <div className="text-xs font-medium text-amber-700 bg-amber-100 px-3 py-1.5 rounded-full w-fit whitespace-nowrap self-start md:self-center">
+                          <div className="text-xs font-medium text-red-600 bg-brand-neon-red/20 px-3 py-1.5 rounded-full w-fit whitespace-nowrap self-start md:self-center">
                             {item.english}
                           </div>
                         )}
@@ -344,8 +345,8 @@ export default function Home() {
                       onClick={() => setActiveLetter(letter)}
                       className={`flex-shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-lg md:text-xl font-bold transition-all duration-200 border-2 ${
                         activeLetter === letter 
-                          ? 'bg-amber-700 border-amber-700 text-white shadow-lg scale-105' 
-                          : 'bg-transparent border-amber-700 text-amber-700 hover:bg-amber-700/10'
+                          ? 'bg-red-600 border-red-600 text-white shadow-lg scale-105' 
+                          : 'bg-transparent border-red-600 text-red-600 hover:bg-red-600/10'
                       }`}
                     >
                       {letter}
@@ -368,7 +369,7 @@ export default function Home() {
                   {isLoadingAlphabet && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-50/40 backdrop-blur-[2px] rounded-3xl animate-in fade-in duration-300">
                        <div className="bg-white p-3 rounded-full shadow-lg border border-slate-100">
-                          <Loader2 className="w-8 h-8 text-amber-700 animate-spin" />
+                          <Loader2 className="w-8 h-8 text-red-600 animate-spin" />
                        </div>
                     </div>
                   )}
@@ -386,7 +387,7 @@ export default function Home() {
                           <button
                             key={item.id}
                             onClick={() => setModalData(item)}
-                            className="px-3 py-1.5 bg-slate-100 border border-slate-200 text-slate-800 rounded-md text-sm md:text-base font-medium cursor-pointer hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-colors shadow-sm"
+                            className="px-3 py-1.5 bg-slate-100 border border-slate-200 text-slate-800 rounded-md text-sm md:text-base font-medium cursor-pointer hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors shadow-sm"
                           >
                             {item.kata}
                           </button>

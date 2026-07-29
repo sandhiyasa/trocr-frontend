@@ -96,14 +96,14 @@ export default function AuthPrompt({ title, description }: AuthPromptProps) {
   return (
     <div className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 p-6 md:p-10 rounded-[2rem] shadow-xl border border-slate-100 max-w-md mx-auto text-center animate-in fade-in zoom-in duration-500 relative overflow-hidden">
       {/* Decorative blobs */}
-      <div className="absolute -top-20 -left-20 w-40 h-40 bg-amber-100/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-20 -left-20 w-40 h-40 bg-brand-neon-red/20/50 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center w-full">
         <div className="mb-5">
           <img 
-            src="/img/readbalilogo-transparant.png" 
-            alt="Readbali Logo" 
+            src="/img/baliscript_logo.png" 
+            alt="Balinesescript Logo" 
             className="h-14 w-auto object-contain" 
           />
         </div>
