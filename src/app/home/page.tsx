@@ -198,12 +198,12 @@ export default function HomePage() {
       <footer className="bg-brand-dark-bg-bg text-gray-400 py-12 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-start gap-8">
-                <div className="text-center md:text-left md:w-1/3">
-                    <div className="flex items-center justify-center md:justify-start mb-2">
+                <div className="text-center lg:text-left lg:w-1/4">
+                    <div className="flex items-center justify-center lg:justify-start mb-2">
                         <img 
                           src="/img/baliscript_logo.png" 
                           alt="Balinesescript Logo" 
-                          className="h-20 md:h-24 w-auto object-contain"
+                          className="h-20 lg:h-24 w-auto object-contain"
                         />
                     </div>
                     <p className="text-sm mt-4">Mendigitalkan warisan lontar dan aksara Bali untuk generasi mendatang.</p>
@@ -212,16 +212,37 @@ export default function HomePage() {
                     </div>
                 </div>
                 
-                <div className="flex flex-col items-center md:items-end w-full md:w-2/3 mt-8 md:mt-0">
-                    <div className="flex flex-col items-center md:items-end w-full">
-                        <h4 className="text-white font-serif font-bold mb-6 text-lg text-center md:text-right">Kontak Peneliti & Pengembang</h4>
-                        <div className="flex flex-col md:flex-row justify-center md:justify-end gap-4 text-left w-full md:w-auto">
+                <div className="flex flex-col items-center lg:items-end w-full lg:w-3/4 mt-8 lg:mt-0">
+                    <div className="flex flex-col items-center lg:items-end w-full">
+                        <h4 className="text-white font-serif font-bold mb-6 text-lg text-center lg:text-right">Kontak Peneliti & Pengembang</h4>
+                        <div className="flex flex-col lg:flex-row justify-center lg:justify-end gap-3 text-left w-full lg:w-auto">
                             
-                            {/* Researcher 1 */}
-                            <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-neon-red/40 p-5 rounded-2xl transition-all duration-300 w-full md:w-auto shadow-lg hover:shadow-brand-neon-red/10 flex flex-col items-start gap-1 relative overflow-hidden group">
+                            {/* Researcher 3 (Moved to Left) */}
+                            <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-neon-red/40 p-4 rounded-2xl transition-all duration-300 w-full lg:w-auto shadow-lg hover:shadow-brand-neon-red/10 flex flex-col items-start gap-1 relative overflow-hidden group">
                                 <div className="absolute -right-8 -top-8 w-24 h-24 bg-brand-neon-red/10 rounded-full blur-2xl group-hover:bg-brand-neon-red/20 transition-all duration-500"></div>
                                 
-                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-normal lg:whitespace-nowrap pr-0 lg:pr-8">
+                                <p className="font-bold text-gray-100 text-xs leading-relaxed relative z-10 text-left whitespace-normal pr-0 lg:pr-2">
+                                    Prof. Dr. Gede Indrawan, S.T., M.T.
+                                </p>
+                                
+                                <div className="flex items-center justify-start gap-2 mt-2 relative z-10">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-neon-red animate-pulse flex-shrink-0"></div>
+                                    <p className="text-brand-neon-red font-bold text-[10px] tracking-widest uppercase">Universitas Pendidikan Ganesha</p>
+                                </div>
+                                
+                                <a href="mailto:gindrawan@undiksha.ac.id" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mt-3 relative z-10 group/mail">
+                                    <svg className="w-4 h-4 text-gray-500 group-hover/mail:text-brand-neon-red transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span className="text-xs font-medium">Hubungi via Email</span>
+                                </a>
+                            </div>
+
+                            {/* Researcher 1 */}
+                            <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-neon-red/40 p-4 rounded-2xl transition-all duration-300 w-full lg:w-auto shadow-lg hover:shadow-brand-neon-red/10 flex flex-col items-start gap-1 relative overflow-hidden group">
+                                <div className="absolute -right-8 -top-8 w-24 h-24 bg-brand-neon-red/10 rounded-full blur-2xl group-hover:bg-brand-neon-red/20 transition-all duration-500"></div>
+                                
+                                <p className="font-bold text-gray-100 text-xs leading-relaxed relative z-10 text-left whitespace-normal pr-0 lg:pr-2">
                                     Ir. I Made Subrata Sandhiyasa, S.Kom., M.Kom., IPM
                                 </p>
                                 
@@ -239,10 +260,10 @@ export default function HomePage() {
                             </div>
 
                             {/* Researcher 2 */}
-                            <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-neon-red/40 p-5 rounded-2xl transition-all duration-300 w-full md:w-auto shadow-lg hover:shadow-brand-neon-red/10 flex flex-col items-start gap-1 relative overflow-hidden group">
+                            <div className="bg-gray-800/30 hover:bg-gray-800/80 border border-gray-700/50 hover:border-brand-neon-red/40 p-4 rounded-2xl transition-all duration-300 w-full lg:w-auto shadow-lg hover:shadow-brand-neon-red/10 flex flex-col items-start gap-1 relative overflow-hidden group">
                                 <div className="absolute -right-8 -top-8 w-24 h-24 bg-brand-neon-red/10 rounded-full blur-2xl group-hover:bg-brand-neon-red/20 transition-all duration-500"></div>
                                 
-                                <p className="font-bold text-gray-100 text-sm leading-relaxed relative z-10 text-left whitespace-normal lg:whitespace-nowrap pr-0 lg:pr-8">
+                                <p className="font-bold text-gray-100 text-xs leading-relaxed relative z-10 text-left whitespace-normal pr-0 lg:pr-2">
                                     I Made Agus Oka Gunawan, S.Kom., M.Kom
                                 </p>
                                 
