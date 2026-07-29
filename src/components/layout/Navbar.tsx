@@ -33,15 +33,15 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-brand-charcoal/80 border-b border-brand-accent-grey">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20 lg:h-24">
           
           {/* Logo Brand */}
           <div className="flex items-center gap-2 flex-1">
             <Link href="/home" className="flex items-center gap-2 group max-w-[70vw]">
               <img 
-                src="/img/baliscript_logo_horizontal.png" 
+                src="/img/baliscript_logo_transparent.png" 
                 alt="Balinesescript Header Logo" 
-                className="h-14 md:h-16 w-auto max-w-full object-contain"
+                className="h-16 md:h-20 lg:h-24 w-auto max-w-full object-contain"
               />
             </Link>
           </div>
